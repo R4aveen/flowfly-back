@@ -508,7 +508,7 @@ collection:
         meta:
           id: req_e8376390a6ec40db8bcc31163ef96004
           created: 1774838755680
-          modified: 1774838921383
+          modified: 1774839522111
           isPrivate: false
           description: ""
           sortKey: -1774838846189.25
@@ -517,7 +517,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "amount": 30500,
+              "amount": 500,
               "description": "Pago Bono (ajuste por tipo de cambio)"
             }
         headers:
