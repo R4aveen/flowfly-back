@@ -1,0 +1,587 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: flowfly
+meta:
+  id: wrk_75ae55d3861142a48109ef7318dee7bf
+  created: 1774827374649
+  modified: 1774827409613
+  description: ""
+collection:
+  - name: auth
+    meta:
+      id: fld_ac83907b3c4543fd9550d61c449f37ff
+      created: 1774827417813
+      modified: 1774829303998
+      sortKey: -1774827417813
+      description: ""
+    children:
+      - url: http://localhost:3000/auth/register
+        name: register
+        meta:
+          id: req_0c515c535cf44e5d910ac8208b2a3013
+          created: 1774827421369
+          modified: 1774828235576
+          isPrivate: false
+          description: ""
+          sortKey: -1774827421369
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "email": "bastiaan@flowfly.cl",
+              "password": "mi_password_seguro",
+              "name": "Bastián Rojas",
+              "netMonthlyIncome": 1200000,
+              "monthlyWorkHours": 160
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/auth/login
+        name: login
+        meta:
+          id: req_d522d84faaa04aebbdaa3a2e55ebd47f
+          created: 1774828239735
+          modified: 1774828830810
+          isPrivate: false
+          description: ""
+          sortKey: -1774828239735
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "email": "bastian@flowfly.cl",
+              "password": "mi_password_seguro"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/auth/me
+        name: me user
+        meta:
+          id: req_69da5c8ad7db462aae90c07eee251dfc
+          created: 1774829132033
+          modified: 1774829630269
+          isPrivate: false
+          description: ""
+          sortKey: -1774829132033
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+    scripts:
+      afterResponse: >-
+        const response = JSON.parse(insomnia.response.body);
+
+
+        if (response.access_token) {
+            insomnia.environment.set("token", response.access_token);
+            console.log("✅ Token guardado: " + response.access_token.substring(0, 10) + "...");
+        } else {
+            console.error("❌ No se encontró access_token en la respuesta");
+        }
+  - name: salario
+    meta:
+      id: fld_b40ea605f36c49b68d9588052cad819d
+      created: 1774833883322
+      modified: 1774833883322
+      sortKey: -1774833883322
+      description: ""
+    children:
+      - url: "{{ _.baseUrl }}/salary-history/change"
+        name: change-salario
+        meta:
+          id: req_701832e79fe742f7ba03142bbe945437
+          created: 1774833886618
+          modified: 1774836064813
+          isPrivate: false
+          description: ""
+          sortKey: -1774833886618
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "baseNetIncome": 600000,
+              "monthlyWorkHours": 160,
+              "startDate": "02-09-2026"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{baseUrl}}/salary-history/"
+        name: SALARY - List
+        meta:
+          id: req_d2c39edc109f44348ccc70b6cca7d9f2
+          created: 1774834642314
+          modified: 1774835273074
+          isPrivate: false
+          description: ""
+          sortKey: -1774835078763
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/salary-history/current"
+        name: SALARY - Current
+        meta:
+          id: req_b2123dd5b4aa4e7b965b6602afbf0b54
+          created: 1774834719350
+          modified: 1774835365616
+          isPrivate: false
+          description: ""
+          sortKey: -1774834719350
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{baseUrl}}/salary-history"
+        name: SALARY - Create Range
+        meta:
+          id: req_670c5b1cedb145f5bbbcb031e67217ba
+          created: 1774834807175
+          modified: 1774835266323
+          isPrivate: false
+          description: ""
+          sortKey: -1774835078813
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "baseNetIncome": 12000000,
+              "monthlyWorkHours": 160,
+              "startDate": "2026-01-01T00:00:00.000Z",
+              "endDate": "2026-06-30T23:59:59.000Z"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/salary-history/346db780-57c6-46c3-ab6b-8467dc3b3878"
+        name: SALARY - Get One
+        meta:
+          id: req_de329e70d5074538912bae0d1173def0
+          created: 1774835078713
+          modified: 1774835309230
+          isPrivate: false
+          description: ""
+          sortKey: -1774835078713
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/salary-history/at?date=02-09-2026"
+        name: SALARY - At Date
+        meta:
+          id: req_2de7876de31d47909935e6636a4c3ef3
+          created: 1774835398276
+          modified: 1774836590659
+          isPrivate: false
+          description: ""
+          sortKey: -1774834302984
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/salary-history/8e0abdb2-4cfb-4425-adbc-79c2ba0eeeaa"
+        name: SALARY - Update
+        meta:
+          id: req_538fa1d9d9dc4941b559ca347efcd0d9
+          created: 1774835580648
+          modified: 1774835677787
+          isPrivate: false
+          description: ""
+          sortKey: -1774835580648
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "baseNetIncome": 100000
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/salary-history/8e0abdb2-4cfb-4425-adbc-79c2ba0eeeaa"
+        name: SALARY - Delete
+        meta:
+          id: req_0787fcff20dc4483ac978b54d4a7eefb
+          created: 1774835704498
+          modified: 1774835737483
+          isPrivate: false
+          description: ""
+          sortKey: -1774835704498
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Transacciones
+    meta:
+      id: fld_98cca7888dc249a2828ef5430a8e7c0b
+      created: 1774837672067
+      modified: 1774837672067
+      sortKey: -1774837672067
+      description: ""
+    children:
+      - url: "{{ _.baseUrl }}/transactions"
+        name: TRANSACCION  - Crear Gasto (con asset real)
+        meta:
+          id: req_9ea522a8f2cb4173a70af07efaae2f52
+          created: 1774838462934
+          modified: 1774838907314
+          isPrivate: false
+          description: ""
+          sortKey: -1774838846283
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "assetId": "PEGA_AQUI_EL_UUID_DE_PRISMA_STUDIO",
+              "amount": 15000,
+              "type": "EXPENSE",
+              "category": "HIGH",
+              "description": "Suscripciones digitales y ocio",
+              "date": "2026-03-29T21:30:00.000Z"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/transactions"
+        name: TRANSACCIUON - Crear Ingreso (Sin Asset)
+        meta:
+          id: req_3dc8f12c8d344deeac94fb17bf344948
+          created: 1774838538926
+          modified: 1774838911087
+          isPrivate: false
+          description: ""
+          sortKey: -1774838846233
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "amount": 50000,
+              "type": "INCOME",
+              "category": "EXTRAORDINARY",
+              "description": "pago kast kl",
+              "date": "2026-03-29T10:00:00.000Z"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/transactions"
+        name: Listar Historial
+        meta:
+          id: req_e4c80e7ab44c40ec95b1d84b371091b0
+          created: 1774838601992
+          modified: 1774838917902
+          isPrivate: false
+          description: ""
+          sortKey: -1774838846208
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/transactions/1b8189a7-7b7d-4394-aee4-11333002c716"
+        name: Ver Detalle de Transacción
+        meta:
+          id: req_26d9fb3342ad476d82137f4de055f73d
+          created: 1774838662126
+          modified: 1774838919655
+          isPrivate: false
+          description: ""
+          sortKey: -1774838846195.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/transactions/1b8189a7-7b7d-4394-aee4-11333002c716"
+        name: Corregir Transacción
+        meta:
+          id: req_e8376390a6ec40db8bcc31163ef96004
+          created: 1774838755680
+          modified: 1774838921383
+          isPrivate: false
+          description: ""
+          sortKey: -1774838846189.25
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "amount": 30500,
+              "description": "Pago Bono (ajuste por tipo de cambio)"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/transactions/d92938c0-dde1-448f-91c7-379a1565ab52"
+        name: Eliminar Transacción
+        meta:
+          id: req_d5ce868efcf94861a028cabcce4259f8
+          created: 1774838846183
+          modified: 1774838880548
+          isPrivate: false
+          description: ""
+          sortKey: -1774838846183
+        method: DELETE
+        body:
+          mimeType: application/json
+          text: ""
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_5546f0bf063b6959e9b8b75b585cd0c5bb9ae0ca
+    created: 1774827374652
+    modified: 1774829303995
+environments:
+  name: Base Environment
+  meta:
+    id: env_5546f0bf063b6959e9b8b75b585cd0c5bb9ae0ca
+    created: 1774827374652
+    modified: 1774829303997
+    isPrivate: false
+  data:
+    baseUrl: http://localhost:3000
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjNDRiODlhNi1hMDI1LTQxZmQtYWRmNS1hODM0MjcwMGM4OTUiLCJlbWFpbCI6ImJhc3RpYW5AZmxvd2ZseS5jbCIsImlhdCI6MTc3NDgyODc5MSwiZXhwIjoxNzc0OTE1MTkxfQ.NX2sYJRrckZNb55lS57yluqIKQtYyUuVeGAePrh0FmI
